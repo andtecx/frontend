@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   Col,
@@ -16,19 +16,30 @@ import AuthSlider from "../authCarousel";
 //formik
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../../../slices/thunks";
 
 const CoverSignUp = () => {
   document.title = "Cover SignUp | Velzon - React Admin & Dashboard Template";
 
   const [passwordShow, setPasswordShow] = useState(false);
+  const dispatch = useDispatch();
+  const history = useNavigate();
 
   const validation = useFormik({
     enableReinitialize: true,
 
     initialValues: {
+      email: "",
       password: "",
+      first_name: "",
+      last_name: "",
+      last_name: "",
     },
     validationSchema: Yup.object({
+      email: Yup.string().required("Please Enter Your Email"),
+      first_name: Yup.string().required("Please Enter Your first name"),
+      last_name: Yup.string().required("Please Enter Your last name"),
       password: Yup.string()
         .min(8, "Password must be at least 8 characters")
         .matches(RegExp("(.*[a-z].*)"), "At least lowercase letter")
@@ -37,7 +48,18 @@ const CoverSignUp = () => {
         .required("This field is required"),
     }),
     onSubmit: (values) => {
-      // console.log(values);
+      console.log(values);
+      dispatch(
+        registerUser({
+          user: {
+            email: values.email,
+            password: values.password,
+          },
+          first_name: values.first_name,
+          last_name: values.last_name,
+          other_names: "",
+        })
+      );
     },
   });
   return (
@@ -70,33 +92,91 @@ const CoverSignUp = () => {
                               <label htmlFor="useremail" className="form-label">
                                 Email <span className="text-danger">*</span>
                               </label>
-                              <input
+                              <Input
                                 type="email"
                                 className="form-control"
-                                id="useremail"
+                                id="email"
+                                name="email"
                                 placeholder="Enter email address"
                                 required
+                                onChange={validation.handleChange}
+                                onBlur={validation.handleBlur}
+                                value={validation.values.email || ""}
+                                invalid={
+                                  validation.errors.email &&
+                                  validation.touched.email
+                                    ? true
+                                    : false
+                                }
                               />
                               <div className="invalid-feedback">
                                 Please enter email
                               </div>
                             </div>
-                            <div className="mb-3">
-                              <label htmlFor="username" className="form-label">
-                                Full name <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="username"
-                                placeholder="Enter username"
-                                required
-                              />
-                              <div className="invalid-feedback">
-                                Please enter store name
-                              </div>
-                            </div>
-
+                            <Row lg={12}>
+                              <Col lg={6}>
+                                <div className="mb-3">
+                                  <label
+                                    htmlFor="username"
+                                    className="form-label"
+                                  >
+                                    First name{" "}
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <Input
+                                    type="text"
+                                    className="form-control"
+                                    id="first_name"
+                                    name="first_name"
+                                    placeholder="Enter your firstname"
+                                    required
+                                    value={validation.values.first_name}
+                                    onChange={validation.handleChange}
+                                    onBlur={validation.handleBlur}
+                                    invalid={
+                                      validation.errors.first_name &&
+                                      validation.touched.first_name
+                                        ? true
+                                        : false
+                                    }
+                                  />
+                                  <div className="invalid-feedback">
+                                    Please enter first name
+                                  </div>
+                                </div>
+                              </Col>
+                              <Col lg={6}>
+                                <div className="mb-3">
+                                  <label
+                                    htmlFor="username"
+                                    className="form-label"
+                                  >
+                                    Last name{" "}
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <Input
+                                    type="text"
+                                    className="form-control"
+                                    id="last_name"
+                                    name="last_name"
+                                    placeholder="Enter your lastname"
+                                    required
+                                    value={validation.values.last_name}
+                                    onChange={validation.handleChange}
+                                    onBlur={validation.handleBlur}
+                                    invalid={
+                                      validation.errors.last_name &&
+                                      validation.touched.last_name
+                                        ? true
+                                        : false
+                                    }
+                                  />
+                                  <div className="invalid-feedback">
+                                    Please enter last name
+                                  </div>
+                                </div>
+                              </Col>
+                            </Row>
                             <div className="mb-3">
                               <label
                                 className="form-label"

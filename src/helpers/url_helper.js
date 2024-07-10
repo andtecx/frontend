@@ -1,5 +1,5 @@
 //REGISTER
-export const POST_FAKE_REGISTER = "/auth/signup";
+export const POST_FAKE_REGISTER = "/auth/admin/signup/";
 
 //LOGIN
 export const POST_FAKE_LOGIN = "/auth/signin";
@@ -110,7 +110,8 @@ export const GET_MONTHLY_DATA = "/monthly-data";
 // Audiences Metrics
 export const GET_ALLAUDIENCESMETRICS_DATA = "/allAudiencesMetrics-data";
 export const GET_MONTHLYAUDIENCESMETRICS_DATA = "/monthlyAudiencesMetrics-data";
-export const GET_HALFYEARLYAUDIENCESMETRICS_DATA = "/halfyearlyAudiencesMetrics-data";
+export const GET_HALFYEARLYAUDIENCESMETRICS_DATA =
+  "/halfyearlyAudiencesMetrics-data";
 export const GET_YEARLYAUDIENCESMETRICS_DATA = "/yearlyAudiencesMetrics-data";
 
 // Users by Device
